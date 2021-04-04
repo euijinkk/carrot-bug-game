@@ -68,38 +68,47 @@ redoBtn.addEventListener('click', () =>{
 // 4. 당근이 클릭되었을 때, 당근이 사라지고, 다시 숫자를 센다. ㅇ
 // 5. 벌레를 누르면 게임이 끝나고, replay 키, YOU LOSE가 뜬다 ㅇ
 
+function startTimer(){
+    
+}
 
-// stop watch
-let time = 1000;
-let sec ="";
-let milliSec ="";
-
-let countDown = setInterval(function() {
-    sec = Math.floor(time/100);
-    milliSec = time-100*sec;
-    timer.innerText = `${sec}:${addZero(milliSec)}`;
-    time--;
-    if(time< 0 ) {
-        timer.innerHTML = "00:00"
-        clearInterval(countDown);
-    }
-},10)
+function stopTimer(){
+    console.log(startTimer());
+    
+}
 
 function addZero(num) {
     return (num < 10 ? '0'+num : ''+num)
     }
-
+    
 function play() {
     if(playBtn.classList.contains("first")){
-        console.log("처음 입니다");
         makeThing("carrot",carrotNum);
         makeThing("bug",bugNum);
+        
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("play","stop")
         console.log(playBtn.classList)
         playBtn.classList.remove("first");
         console.log(playBtn.classList)
         carrotContainer.addEventListener('click', (e) => {onCarrotClick(e.target);})
-        bugContainer.addEventListener('click', () => onBugClick());
+        bugContainer.addEventListener('click', () => message("YOU LOSE"));
+
+        var time = 1000;
+    var sec ="";
+    var milliSec ="";
+
+    var countDown = setInterval(function() {
+        sec = Math.floor(time/100);
+        milliSec = time-100*sec;
+        timer.innerText = `${sec}:${addZero(milliSec)}`;
+        time--;
+        if(time< 0 ) {
+            // timer.innerHTML = "00:00"
+            clearInterval(countDown);
+            message("YOU LOSE")
+        }
+    },10)
+    var a=0;
     } else if (playBtn.childNodes[1].classList.contains("fa-play")) {
         console.log("재시작합니다");
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("play","stop")
@@ -107,7 +116,9 @@ function play() {
     } else if (playBtn.childNodes[1].classList.contains("fa-stop")){
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("stop","play")
         console.log("중지합니다");
-        
+        clearInterval(countDown);
+        console.log(countDown);
+        console.log(`a: ${a}`)
         // removeEventListner가 작동하지 않는다..
         // carrotContainer.removeEventListener('click', onCarrotClick);
     }
@@ -121,15 +132,13 @@ function onCarrotClick(target){
     leftCarrotNum.innerHTML = carrotContainer.childNodes.length;
     console.log(typeof leftCarrotNum.innerHTML)
     if(leftCarrotNum.innerHTML === "0") {
-        paragraph.innerHTML = "YOU WIN"
-        background.appendChild(gameover)
+        message("YOU WIN")
     }
 }
 
-function onBugClick() {
-    paragraph.innerHTML = "YOU LOSE";
+function message(message) {
+    paragraph.innerHTML = message;
     background.appendChild(gameover);
-    // background.append    
 }
 
 
