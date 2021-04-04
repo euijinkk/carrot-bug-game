@@ -67,15 +67,48 @@ redoBtn.addEventListener('click', () =>{
 // 3. 남은 당근 개수 출력 ㅇ
 // 4. 당근이 클릭되었을 때, 당근이 사라지고, 다시 숫자를 센다. ㅇ
 // 5. 벌레를 누르면 게임이 끝나고, replay 키, YOU LOSE가 뜬다 ㅇ
-
-function startTimer(){
-    
+function timerFunction(){
+    var countDown;
+    return {
+        startTimer : function (){
+            var time = parseInt(timer.innerHTML.split(":")[0])*100+parseInt(timer.innerHTML.split(":")[1]);
+            var sec ="";
+            var milliSec ="";
+        
+            return countDown = setInterval(function() {
+                sec = Math.floor(time/100);
+                milliSec = time-100*sec;
+                timer.innerText = `${sec}:${addZero(milliSec)}`;
+                time--;
+                if(time< 0 ) {
+                    // timer.innerHTML = "00:00"
+                    clearInterval(countDown);
+                    message("YOU LOSE")
+                }
+            },10)
+            // return countDown;
+        },
+        stopTimer : function (){
+            clearInterval(countDown);
+            console.log(countDown);
+        }
+    }
 }
 
-function stopTimer(){
-    console.log(startTimer());
-    
+let timerFunc = timerFunction();
+
+// timerFunc.startTimer();
+
+function counter(){
+	var n = 0;
+	return {
+		count: function() { return n++; },
+        reset: function() { n = 0; }
+ };
 }
+
+var countA = counter();
+var countB = counter();
 
 function addZero(num) {
     return (num < 10 ? '0'+num : ''+num)
@@ -92,38 +125,23 @@ function play() {
         console.log(playBtn.classList)
         carrotContainer.addEventListener('click', (e) => {onCarrotClick(e.target);})
         bugContainer.addEventListener('click', () => message("YOU LOSE"));
-
-        var time = 1000;
-    var sec ="";
-    var milliSec ="";
-
-    var countDown = setInterval(function() {
-        sec = Math.floor(time/100);
-        milliSec = time-100*sec;
-        timer.innerText = `${sec}:${addZero(milliSec)}`;
-        time--;
-        if(time< 0 ) {
-            // timer.innerHTML = "00:00"
-            clearInterval(countDown);
-            message("YOU LOSE")
-        }
-    },10)
-    var a=0;
+        timerFunc.startTimer();
     } else if (playBtn.childNodes[1].classList.contains("fa-play")) {
         console.log("재시작합니다");
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("play","stop")
         carrotContainer.addEventListener('click', (e) => {onCarrotClick(e.target);})
+        timerFunc.startTimer();
     } else if (playBtn.childNodes[1].classList.contains("fa-stop")){
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("stop","play")
         console.log("중지합니다");
-        clearInterval(countDown);
-        console.log(countDown);
-        console.log(`a: ${a}`)
+        timerFunc.stopTimer();
         // removeEventListner가 작동하지 않는다..
         // carrotContainer.removeEventListener('click', onCarrotClick);
     }
     leftCarrotNum.innerHTML = carrotContainer.childNodes.length;
 }
+
+
 
 function onCarrotClick(target){
     const toBeDeleted = document.querySelector(`.carrot[data-id="${target.dataset.id}"]`);
