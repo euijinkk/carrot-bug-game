@@ -56,7 +56,7 @@ redoBtn.addEventListener('click', () =>{
     background.removeChild(gameover);
     
     playBtn.classList.add("first");
-    
+    timer.innerHTML = "10:00"
     play();
     
 })
@@ -74,7 +74,8 @@ function timerFunction(){
             var time = parseInt(timer.innerHTML.split(":")[0])*100+parseInt(timer.innerHTML.split(":")[1]);
             var sec ="";
             var milliSec ="";
-        
+            
+            // 클로저 ㅠㅠ. 
             return countDown = setInterval(function() {
                 sec = Math.floor(time/100);
                 milliSec = time-100*sec;
@@ -88,6 +89,7 @@ function timerFunction(){
             },10)
             // return countDown;
         },
+        // 클로저 활용! 캡슐화의 데이터은닉
         stopTimer : function (){
             clearInterval(countDown);
             console.log(countDown);
@@ -97,18 +99,6 @@ function timerFunction(){
 
 let timerFunc = timerFunction();
 
-// timerFunc.startTimer();
-
-function counter(){
-	var n = 0;
-	return {
-		count: function() { return n++; },
-        reset: function() { n = 0; }
- };
-}
-
-var countA = counter();
-var countB = counter();
 
 function addZero(num) {
     return (num < 10 ? '0'+num : ''+num)
@@ -157,6 +147,11 @@ function onCarrotClick(target){
 function message(message) {
     paragraph.innerHTML = message;
     background.appendChild(gameover);
+    timerFunc.stopTimer();
+
+    // why is it not working?
+    carrotContainer.removeEventListener('click', (e) => {onCarrotClick(e.target);});
+    bugContainer.removeEventListener('click', () => message("YOU LOSE"));
 }
 
 
@@ -183,7 +178,11 @@ function makeThing(thing,num) {
     
 }
 
-
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
+
+// 부족한 점
+// 1. 이미지가 정사각형으로 인식되어, 이기는게 불가능할 수 있다.
+// 2. 화면이 변경되면, 벌레는 따라오지 않는 문제.
+// 3. 멈추었을 때, 클릭되면
