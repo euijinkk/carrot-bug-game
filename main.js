@@ -48,8 +48,6 @@ playBtn.addEventListener('click', () => {
 })
 
 redoBtn.addEventListener('click', () =>{
-    // carrotContainer.childNodes.remove();
-    // bugContainer.childNodes.remove();
     carrotContainer.innerHTML = "";
     bugContainer.innerHTML = "";
     
@@ -61,12 +59,6 @@ redoBtn.addEventListener('click', () =>{
     
 })
 
-// 게임 시작키 눌렀을때
-// 1. 벌레, 당근 생성 ㅇ
-// 2. 10초 타이머 가동 
-// 3. 남은 당근 개수 출력 ㅇ
-// 4. 당근이 클릭되었을 때, 당근이 사라지고, 다시 숫자를 센다. ㅇ
-// 5. 벌레를 누르면 게임이 끝나고, replay 키, YOU LOSE가 뜬다 ㅇ
 function timerFunction(){
     var countDown;
     return {
@@ -82,12 +74,9 @@ function timerFunction(){
                 timer.innerText = `${sec}:${addZero(milliSec)}`;
                 time--;
                 if(time< 0 ) {
-                    // timer.innerHTML = "00:00"
-                    clearInterval(countDown);
                     message("YOU LOSE")
                 }
             },10)
-            // return countDown;
         },
         // 클로저 활용! 캡슐화의 데이터은닉
         stopTimer : function (){
@@ -110,35 +99,25 @@ function play() {
         makeThing("bug",bugNum);
         
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("play","stop")
-        console.log(playBtn.classList)
         playBtn.classList.remove("first");
-        console.log(playBtn.classList)
         carrotContainer.addEventListener('click', (e) => {onCarrotClick(e.target);})
         bugContainer.addEventListener('click', () => message("YOU LOSE"));
         timerFunc.startTimer();
     } else if (playBtn.childNodes[1].classList.contains("fa-play")) {
-        console.log("재시작합니다");
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("play","stop")
         carrotContainer.addEventListener('click', (e) => {onCarrotClick(e.target);})
         timerFunc.startTimer();
     } else if (playBtn.childNodes[1].classList.contains("fa-stop")){
         playBtn.childNodes[1].className = playBtn.childNodes[1].className.replace("stop","play")
-        console.log("중지합니다");
         timerFunc.stopTimer();
-        // removeEventListner가 작동하지 않는다..
-        // carrotContainer.removeEventListener('click', onCarrotClick);
     }
     leftCarrotNum.innerHTML = carrotContainer.childNodes.length;
 }
 
-
-
 function onCarrotClick(target){
     const toBeDeleted = document.querySelector(`.carrot[data-id="${target.dataset.id}"]`);
     toBeDeleted.remove();
-    console.log(carrotContainer.childNodes.length);
     leftCarrotNum.innerHTML = carrotContainer.childNodes.length;
-    console.log(typeof leftCarrotNum.innerHTML)
     if(leftCarrotNum.innerHTML === "0") {
         message("YOU WIN")
     }
@@ -157,16 +136,13 @@ function message(message) {
 
 
 function makeThing(thing,num) {
-    // let id =0;
     for(let i=0; i<num; i++) {
         const carrotORbug = document.createElement('img');
         carrotORbug.src = `img/${thing}.png`;
 
         carrotORbug.setAttribute('class',`${thing} carrotORbug`);
         carrotORbug.setAttribute('data-id',`${i}th`)
-        // console.log(carrotContainer);
         const container = document.querySelector(`.${thing}Container`)
-        // console.log(`.${thing}Container`);
         container.appendChild(carrotORbug);
 
         let carrotORbugSize = window.getComputedStyle(carrotORbug).width;
@@ -184,5 +160,5 @@ function getRandomArbitrary(min, max) {
 
 // 부족한 점
 // 1. 이미지가 정사각형으로 인식되어, 이기는게 불가능할 수 있다.
-// 2. 화면이 변경되면, 벌레는 따라오지 않는 문제.
-// 3. 멈추었을 때, 클릭되면
+// 2. 화면이 resize되면, background image 만 움직이고 당근/벌레는 따라오지 않는 문제.
+// 3. 멈추었을 때, 당근/벌레가 여전히 클릭되는 문제 - removeEventListener is now working.
