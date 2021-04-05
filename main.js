@@ -53,6 +53,26 @@ let gameWinFile = new Audio('sound/game_win.mp3');
 playBtn.addEventListener('click', () => {
     playGame()
 })
+// space 를 누르면 게임이 시작, 중지, 재시작, redo 되도록 한다.
+document.addEventListener('keydown', function (e) {
+    if (e.keyCode === 32) {
+        // console.log(background.children[5]);
+        if(background.children[5]) {
+            carrotContainer.innerHTML = "";
+            bugContainer.innerHTML = "";
+            
+            background.removeChild(gameover);
+            
+            playBtn.classList.add("first");
+            timer.innerHTML = "10:00"
+            bgFile.currentTime =0;
+            playGame();
+        } else{
+            playGame()
+        }
+        
+    }
+  });
 
 redoBtn.addEventListener('click', () =>{
     carrotContainer.innerHTML = "";
@@ -174,17 +194,18 @@ function makeThing(thing,num) {
         carrotORbug.style.top = `${getRandomArbitrary(minHeight,maxHeight)-carrotORbugSize}px`;
         carrotORbug.style.left = `${getRandomArbitrary(minWidth,maxWidth-carrotORbugSize)}px`;
     }
-    
 }
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
 
+
+
 // 부족한 점
 // 1. 이미지가 정사각형으로 인식되어, 이기는게 불가능할 수 있다.
 // 2. 화면이 resize되면, background image 만 움직이고 당근/벌레는 따라오지 않는 문제.
 // 3. 멈추었을 때, 당근/벌레가 여전히 클릭되는 문제 - removeEventListener is now working.
-// 4. 재생버튼, hover -> 1.1배
-// 5. sound 
+// 4. 재생버튼, hover -> 1.1배 ㅇ
+// 5. sound  ㅇ
 // 6. 스페이스바를 누르면 게임이 시작되도록.
