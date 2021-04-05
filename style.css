@@ -11,9 +11,18 @@ body {
   width: 889px;
   height: 500px;
   margin: auto;
+  margin-top: 20px;
   text-align: center;
   background: url("img/background.png") center/contain no-repeat;
   /* center/cover no-repeat; */
+
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  border: none;
+  /* width: 500px; */
+  /* height: 335px; */
+  /* background: url(http://themescompany.com/wp-content/uploads/2012/02/6402.jpg); */
 }
 
 .playBtn {
@@ -95,3 +104,16 @@ body {
 }
 
 /* .bug */
+.bug {
+  width: 60px;
+  height: 60px;
+}
+
+.playBtn:hover,
+.carrotORbug:hover {
+  transform: scale(1.1);
+}
+.playBtn,
+.carrotORbug {
+  transition: transform 100ms ease;
+}
