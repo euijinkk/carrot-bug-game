@@ -5,6 +5,12 @@ body {
   text-align: center;
   margin: 0;
 }
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
 #whole {
   /* width: 100%; */
   /* height: 300px; */
@@ -16,10 +22,8 @@ body {
   background: url("img/background.png") center/contain no-repeat;
   /* center/cover no-repeat; */
 
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  border: none;
+  border-radius: 30px;
+  /* border: none; */
   /* width: 500px; */
   /* height: 335px; */
   /* background: url(http://themescompany.com/wp-content/uploads/2012/02/6402.jpg); */
@@ -32,11 +36,11 @@ body {
   height: 40px;
   border-radius: 5px;
   background-color: #fff263;
-  cursor: pointer;
+  /* cursor: pointer; */
   border: 2px solid black;
 
   /* 클릭했을 때, 아무 변화가 없도록 */
-  outline: none;
+  /* outline: none; */
 }
 .playBtn i {
   font-size: 25px;
@@ -51,6 +55,10 @@ body {
   border-radius: 5px;
   border: 2px solid black;
   background-color: white;
+  visibility: hidden;
+
+  user-select: none;
+  cursor: auto;
 }
 
 .leftCarrotNum {
@@ -64,6 +72,10 @@ body {
   background-color: #fb8c00;
   color: white;
   border: 2px solid black;
+  visibility: hidden;
+
+  user-select: none;
+  cursor: auto;
 }
 
 .carrotORbug {
@@ -87,7 +99,7 @@ body {
   top: 100px;
   border-radius: 8px;
 }
-.gameover .redoBtn {
+.gameover button[class="redoBtn"] {
   width: 50px;
   height: 50px;
   font-size: 30px;
@@ -110,10 +122,12 @@ body {
 }
 
 .playBtn:hover,
-.carrotORbug:hover {
+.carrotORbug:hover,
+.redoBtn:hover {
   transform: scale(1.1);
 }
 .playBtn,
-.carrotORbug {
+.carrotORbug,
+.redoBtn {
   transition: transform 100ms ease;
 }

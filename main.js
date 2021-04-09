@@ -23,6 +23,7 @@ const maxHeight = bottomC;
 const minWidth = leftC;
 const maxWidth = rightC;
 
+// const 상수는 CARROT_COUNT 처럼 대문자로 쓰는군
 let carrotNum = 10;
 let bugNum = 7;
 // console.log(`minWidth : ${minWidth}`)
@@ -33,7 +34,7 @@ gameover.setAttribute('class','gameover');
 const redoBtn = document.createElement('button');
 redoBtn.setAttribute('class', 'redoBtn');
 const redoIcon = document.createElement('i');
-redoIcon.setAttribute('class', 'fas fa-redo');
+redoIcon.setAttribute('class', 'fas fa-redo redoBtn');
 const paragraph = document.createElement('p');
 paragraph.setAttribute('class', 'paragraph');
 
@@ -48,7 +49,7 @@ let carrotFile = new Audio('sound/carrot_pull.mp3');
 let gameWinFile = new Audio('sound/game_win.mp3');
 
 
-
+// 함수는 기능단위로 잘라서 짧게짧게 정의하자!
 
 playBtn.addEventListener('click', () => {
     playGame()
@@ -86,33 +87,53 @@ redoBtn.addEventListener('click', () =>{
     playGame();
     
 })
-
+// emoji 단축키 -> window + ;   
 function timerFunction(){
-    var countDown;
+    let countDown;
     return {
         startTimer : function (){
-            var time = parseInt(timer.innerHTML.split(":")[0])*100+parseInt(timer.innerHTML.split(":")[1]);
-            var sec ="";
-            var milliSec ="";
+            let time = parseInt(timer.innerHTML.split(":")[0])*100+parseInt(timer.innerHTML.split(":")[1]);
+            let sec ="";
+            let milliSec ="";
             
             // 클로저 ㅠㅠ. 
-            return countDown = setInterval(function() {
+            countDown = setInterval(function() {
                 sec = Math.floor(time/100);
                 milliSec = time-100*sec;
                 timer.innerText = `${sec}:${addZero(milliSec)}`;
                 time--;
                 if(time< 0 ) {
                     message("YOU LOSE")
+                    return
                 }
             },10)
         },
         // 클로저 활용! 캡슐화의 데이터은닉
         stopTimer : function (){
             clearInterval(countDown);
-            console.log(countDown);
         }
     }
 }
+
+let a;
+function changeA(){
+    a=1;
+}
+console.log(a);
+
+// let a =0
+// function changeA(){
+//     return {
+//         changeAA : function() {
+//         a = 1;
+//     }, consoleAA : function() {
+//         console.log(a);
+//     }
+// }
+// }
+// let c = changeA();
+// c.changeAA();
+// c.consoleAA();
 
 let timerFunc = timerFunction();
 
@@ -123,6 +144,7 @@ function addZero(num) {
     
 function playGame() {
     alertFile.play();
+    showTimerAndScore();
     if(playBtn.classList.contains("first")){
         // 첫시작
         makeThing("carrot",carrotNum);
@@ -176,6 +198,20 @@ function message(message) {
     bugContainer.removeEventListener('click', () => message("YOU LOSE"));
 }
 
+function showTimerAndScore() {
+    timer.style.visibility = 'visible';
+    leftCarrotNum.style.visibility = 'visible';
+}
+
+// field.addEventListener('click', onFieldClick);
+// field.addEventListener('click', (event) => onFieldClick(event));
+// 두개가 똑같다!
+
+// if(target.matches('.carrot'))
+// 만약 타겟의 class 가 carrot 이면
+
+
+
 
 
 function makeThing(thing,num) {
@@ -203,9 +239,9 @@ function getRandomArbitrary(min, max) {
 
 
 // 부족한 점
-// 1. 이미지가 정사각형으로 인식되어, 이기는게 불가능할 수 있다.
+// 1. 이미지가 정사각형으로 인식되어, 이기는게 불가능할 수 있다. ->  scale을 이용하여 반쯤 해결
 // 2. 화면이 resize되면, background image 만 움직이고 당근/벌레는 따라오지 않는 문제.
 // 3. 멈추었을 때, 당근/벌레가 여전히 클릭되는 문제 - removeEventListener is now working.
 // 4. 재생버튼, hover -> 1.1배 ㅇ
 // 5. sound  ㅇ
-// 6. 스페이스바를 누르면 게임이 시작되도록.
+// 6. 스페이스바를 누르면 게임이 시작되도록. ㅇ
